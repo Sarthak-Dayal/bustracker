@@ -47,7 +47,7 @@ export const reset = async (altNum, replacedNum, num, status) => {
 export const snapshot = (num, setX, setY, setStatus) => {
   const docRef = doc(db, "busdata", `${num}`);
   onSnapshot(docRef, async (doc) => {
-    let dat = await doc.data();
+    let dat = doc.data();
     setX(dat.x);
     setY(dat.y);
     setStatus(dat.status);
