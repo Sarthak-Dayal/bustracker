@@ -79,24 +79,33 @@ main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  cursor: grab;
   background-color: #ccc;
 }
+
+.emptybus,
 .bus {
-  width: 147px;
-  height: 72px;
+  border: 0px;
+  width: 156px;
+  height: 80px;
   color: black;
   padding-left: 20px;
   text-align: left;
   margin: 5px;
-  background: url("./Group\ 1.png"), #6f8e79;
   background-color: rgba(0, 0, 0, 0);
-  background-size: 147px 72px;
+  background-size: 156px 80px;
+}
+
+.bus {
+  cursor: grab;
+  background: url("./Group\ 1.png"), #6f8e7900;
   background-repeat: no-repeat;
 }
 
 .gone {
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #ccc;
 }
 
 .emptySpace {
