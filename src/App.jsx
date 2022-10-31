@@ -2,22 +2,16 @@
 
 import "./App.css";
 import Busdata from "./data.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bus from "./Bus";
+import { updateDoc, reset, snapshot, updateDocWithoutXY } from "./Data";
+import EmptyBus from "./EmptyBus";
 
 const UnarrivedBuses = (props) => {
-  //TODO: PULL FROM FIREBASE
-  const buses = Busdata.map((data) => {
-    return <Bus num={data.num} status={data.status} page={props.page} />;
+  let buses = props.buses.map((bus) => {
+    if (bus.props.status !== "Departed") return bus;
+    else return <EmptyBus></EmptyBus>;
   });
-  return <div className='busbank'>{buses}</div>;
-};
-
-const DepartedBuses = (props) => {
-  const buses = props.buses.map((data) => {
-    return <Bus num={data.num} status='Departed' page={props.page} />;
-  });
-
   return <div className='busbank'>{buses}</div>;
 };
 
@@ -28,15 +22,19 @@ const TitleSection = (props) => {
       <button className='APLoginBtn' onClick={() => props.setPage(1)}>
         AP Login
       </button>
+      <button className='APLoginBtn' onClick={() => props.resetBuses()}>
+        Reset Buses
+      </button>
     </div>
   );
 };
 
 const LoadingArea = (props) => {
-  //const collectionRef = collection(db, "busdata");
   return (
     <div className='load'>
-      <button>Move waiting buses to departed area</button>
+      <button onClick={() => props.moveToDeparted()}>
+        Move loading to departed
+      </button>
     </div>
   );
 };
@@ -49,16 +47,31 @@ const UnarrivedArea = (props) => {
   return (
     <div className='unarrive'>
       <h1>Bus Bank</h1>
-      <UnarrivedBuses className='buss' page={props.page} />
+      <button
+        className='APLoginBtn'
+        onClick={() => {
+          console.log("CLICKED");
+          props.setPage(3);
+        }}>
+        Update Bus Number
+      </button>
+      <UnarrivedBuses className='buss' page={props.page} buses={props.buses} />
     </div>
   );
 };
 
 const GoneArea = (props) => {
+  let buses = props.buses.map((bus) => {
+    if (bus.props.status === "Departed") {
+      return bus;
+    }
+  });
   return (
-    <div className='gone'>
+    <div className='unarrive'>
       <h1>Departed Bus Area</h1>
-      {DepartedBuses}
+      <div className='buss'>
+        <div className='gone'>{buses}</div>
+      </div>
     </div>
   );
 };
@@ -90,6 +103,47 @@ const APLogin = (props) => {
     </div>
   );
 };
+const UpdateBusNumber = (props) => {
+  const updateNum = (arr) => {
+    props.changeAltNum(arr[0], arr[1]);
+    props.setPage(2);
+  };
+  return (
+    <div className='login'>
+      <div>
+        <h1>Update Bus Number</h1>
+      </div>
+      <div>
+        <h3>Enter the original bus number below:</h3>
+      </div>
+      <div>
+        <input id='OGNumInput' placeholder='Original Number'></input>
+      </div>
+      <div>
+        <h3>Enter the new bus number below:</h3>
+      </div>
+      <div>
+        <input id='NewNumInput' placeholder='New Number'></input>
+      </div>
+      <div className='APViewDiv'>
+        <button className='backToHomeBtn' onClick={() => props.setPage(2)}>
+          Back
+        </button>
+        <button
+          className='APView'
+          onClick={() => updateNum(getValuesOfUpdateNum())}>
+          Enter
+        </button>
+      </div>
+    </div>
+  );
+};
+
+function getValuesOfUpdateNum() {
+  let input1 = document.getElementById("OGNumInput").value;
+  let input2 = document.getElementById("NewNumInput").value;
+  return [input1, input2];
+}
 function getValueOfLogin() {
   let input = document.getElementById("APLoginInput").value;
   return input;
@@ -99,37 +153,122 @@ function borderChange() {
   document.getElementById("APLoginInput").style.border = "5px solid red";
 }
 
-const APLogIn = (props) => {
-  //code to enter the AP login pin/password
-};
-
 export default function App() {
   const [page, setPage] = useState(0);
+  const changePage = (pg) => {
+    setPage(pg);
+    setBuses(busesInit);
+  };
+  const changeStatus = (busNumber, newStatus) => {
+    let newBuses = [...buses];
+    for (let i = 0; i < newBuses.length; i++) {
+      let bus = buses[i];
+      if (bus.props.num === busNumber) {
+        buses[i] = (
+          <Bus
+            num={bus.props.num}
+            altNum={bus.props.altNum}
+            page={page !== 0 ? 2 : 0}
+            status={newStatus}
+            changeStatus={changeStatus}
+            changeAltNum={changeAltNum}
+          />
+        );
+      }
+    }
+    setBuses(newBuses);
+  };
+  const changeAltNum = (busNumber, newAltNum) => {
+    let newBuses = [...buses];
+    for (let i = 0; i < newBuses.length; i++) {
+      let bus = buses[i];
+      if (bus.props.num === busNumber) {
+        buses[i] = (
+          <Bus
+            num={bus.props.num}
+            altNum={newAltNum}
+            page={page !== 0 ? 2 : 0}
+            status={bus.props.status}
+            changeStatus={changeStatus}
+            changeAltNum={changeAltNum}
+          />
+        );
+        updateDocWithoutXY(
+          buses[i].props.altNum,
+          bus.props.num,
+          bus.props.status
+        );
+      }
+    }
+    setBuses(newBuses);
+  };
+
+  let busesInit;
+
+  busesInit = Busdata.map((data, index) => {
+    return (
+      <Bus
+        num={data.num}
+        altNum={""}
+        status={data.status}
+        page={page}
+        changeStatus={changeStatus}
+        changeAltNum={changeAltNum}
+      />
+    );
+  });
+
+  const [buses, setBuses] = useState(busesInit);
+
+  const resetBuses = () => {
+    for (let bus of buses) {
+      reset(bus.props.num);
+    }
+  };
+  const moveToDeparted = () => {
+    for (let i = 0; i < buses.length; i++) {
+      let bus = buses[i];
+      if (
+        bus.props.status === "First Lane" ||
+        bus.props.status === "Second Lane"
+      ) {
+        updateDoc(
+          0,
+          0,
+          bus.props.altNum ? bus.props.altNum : "",
+          bus.props.num,
+          "Departed"
+        );
+      }
+    }
+  };
 
   return (
     <div className='App'>
       <main>
         {page === 0 ? (
           <div>
-            <TitleSection setPage={setPage} />
+            <TitleSection setPage={changePage} resetBuses={resetBuses} />
             <div className='bkgrdImg'>
               <WaitingArea />
-              <LoadingArea />
+              <LoadingArea moveToDeparted={moveToDeparted} />
             </div>
-            <UnarrivedArea page={page} />
-            <GoneArea />
+            <UnarrivedArea page={page} buses={buses} setPage={changePage} />
+            <GoneArea buses={buses} />
           </div>
         ) : page === 1 ? (
-          <APLogin setPage={setPage} />
+          <APLogin setPage={changePage} />
+        ) : page === 3 ? (
+          <UpdateBusNumber setPage={changePage} changeAltNum={changeAltNum} />
         ) : (
           <div>
-            <TitleSection setPage={setPage} />
+            <TitleSection setPage={changePage} resetBuses={resetBuses} />
             <div className='bkgrdImg'>
               <WaitingArea />
-              <LoadingArea />
+              <LoadingArea moveToDeparted={moveToDeparted} />
             </div>
-            <UnarrivedArea page={page} />
-            <GoneArea />
+            <UnarrivedArea page={page} buses={buses} setPage={changePage} />
+            <GoneArea buses={buses} />
           </div>
         )}
       </main>
