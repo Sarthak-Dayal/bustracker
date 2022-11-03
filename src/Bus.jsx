@@ -8,16 +8,16 @@ import Draggable from "react-draggable";
 const Bus = (props) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+  const [status, setStatus] = useState("Not here");
   const [altNum, setAltNum] = useState(null);
   const busRef = useRef();
 
-  snapshot(props.num, setX, setY, props.changeStatus, props.changeAltNum);
+  snapshot(props.num, setX, setY, props.changeStatus);
 
   const handleStop = async (event, dragElement) => {
     //const busX = busRef.current.offsetLeft + dragElement.x;
     const busY = busRef.current.offsetTop + dragElement.y;
     let stat = "Not here";
-    if (props.status == "Departed") stat = props.status;
     if (busY > 430 && busY <= 570) {
       dragElement.y = 515 - busRef.current.offsetTop;
       stat = "First Lane";
@@ -29,6 +29,7 @@ const Bus = (props) => {
     if (busY <= 295) {
       stat = "Waiting";
     }
+    if (props.status == "Departed") stat = props.status;
     updateDoc(
       dragElement.x,
       dragElement.y,
@@ -37,9 +38,10 @@ const Bus = (props) => {
       stat
     );
   };
+
   return props.page === 0 ? (
     <Draggable onDrag={null} position={{ x: x, y: y }}>
-      <div>
+      <div className='bus' ref={busRef}>
         <Tippy
           content={
             <>
@@ -48,18 +50,17 @@ const Bus = (props) => {
               {"Status: " + props.status}
             </>
           }>
-          <button className='bus' ref={busRef}>
+          <button className='busBtn'>
             <h2>
-              {props.num}{" "}
-              {props.altNum != "" ? "(" + props.altNum + ")" : <></>}
+              {props.num} {altNum != null ? "(" + altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>
       </div>
     </Draggable>
   ) : (
-    <Draggable onStop={handleStop} position={{ x: x, y: y }}>
-      <div>
+    <Draggable position={{ x: x, y: y }} onStop={handleStop}>
+      <div className='bus' ref={busRef}>
         <Tippy
           content={
             <>
@@ -68,10 +69,9 @@ const Bus = (props) => {
               {"Status: " + props.status}
             </>
           }>
-          <button className='bus' ref={busRef}>
+          <button className='busBtn'>
             <h2>
-              {props.num}{" "}
-              {props.altNum != "" ? "(" + props.altNum + ")" : <></>}
+              {props.num} {altNum != null ? "(" + altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>

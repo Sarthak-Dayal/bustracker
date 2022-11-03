@@ -11,23 +11,21 @@ import {
   setDoc,
   onSnapshot,
 } from "firebase/firestore";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import Busdata from "./data.json";
 const firebaseConfig = {
-  apiKey: "AIzaSyCIkAEUTmy-SA17wdY_G1dHEqQ8GtiuiIM",
-  authDomain: "bustracker-5c911.firebaseapp.com",
-  projectId: "bustracker-5c911",
-  storageBucket: "bustracker-5c911.appspot.com",
-  messagingSenderId: "783412167818",
-  appId: "1:783412167818:web:c620551d6b74deae4cd973",
+  apiKey: "AIzaSyCRu8s0df6AqudfTeyC36vv--UjpIe3eTU",
+  authDomain: "bustracker-41102.firebaseapp.com",
+  databaseURL: "https://bustracker-41102-default-rtdb.firebaseio.com",
+  projectId: "bustracker-41102",
+  storageBucket: "bustracker-41102.appspot.com",
+  messagingSenderId: "97855552997",
+  appId: "1:97855552997:web:af1aa01cf22c9d213d430c",
+  measurementId: "G-WMGMY7RVY2",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 export const updateDoc = async (x, y, altNum, num, status) => {
@@ -35,44 +33,24 @@ export const updateDoc = async (x, y, altNum, num, status) => {
   await setDoc(docRef, {
     x: x,
     y: y,
-    altNum: altNum,
+    altNum: "",
     num: `${num}`,
     status: status,
   });
 };
 
-export const updateDocWithoutXY = async (altNum, num, status) => {
-  const docRef = doc(db, "busdata", `${num}`);
-  const docSnap = await getDoc(docRef);
-  let dat;
-
-  if (docSnap.exists()) {
-    dat = docSnap.data();
-  } else {
-    console.log("No such document!");
-  }
-
-  await setDoc(docRef, {
-    x: dat.x,
-    y: dat.y,
-    altNum: altNum,
-    num: `${num}`,
-    status: status,
+export const reset = () => {
+  Busdata.map(async (data) => {
+    await updateDoc(0, 0, "", data.num, "Not here");
   });
 };
 
-export const reset = async (num) => {
-  const docRef = doc(db, "busdata", `${num}`);
-  updateDoc(0, 0, "", "", num, "Not here");
-};
-
-export const snapshot = (num, setX, setY, setStatus, changeAltNum) => {
+export const snapshot = (num, setX, setY, setStatus) => {
   const docRef = doc(db, "busdata", `${num}`);
   onSnapshot(docRef, async (doc) => {
     let dat = doc.data();
     setX(dat.x);
     setY(dat.y);
     setStatus(num, dat.status);
-    changeAltNum(num, dat.altNum);
   });
 };
