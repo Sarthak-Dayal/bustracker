@@ -3,14 +3,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, updateDoc, setDoc, onSnapshot } from "firebase/firestore";
 import Busdata from "./data.json";
 const firebaseConfig = {
   apiKey: "AIzaSyCRu8s0df6AqudfTeyC36vv--UjpIe3eTU",
@@ -28,29 +21,40 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-export const updateDoc = async (x, y, altNum, num, status) => {
+export const changeDoc = async (x, y, altNum, num, status) => {
   const docRef = doc(db, "busdata", `${num}`);
-  await setDoc(docRef, {
+  await updateDoc(docRef, {
     x: x,
     y: y,
-    altNum: "",
-    num: `${num}`,
+    altNum: altNum,
     status: status,
   });
 };
 
+export const updateAltNum = async (num, altNum) => {
+  try {
+    const docRef = doc(db, "busdata", `${num}`);
+    await updateDoc(docRef, {
+      altNum: num === altNum ? "" : altNum,
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export const reset = () => {
   Busdata.map(async (data) => {
-    await updateDoc(0, 0, "", data.num, "Not here");
+    await changeDoc(0, 0, "", data.num, "Not here");
   });
 };
 
-export const snapshot = (num, setX, setY, changeStatus) => {
+export const snapshot = (num, setX, setY, updateBus) => {
   const docRef = doc(db, "busdata", `${num}`);
   onSnapshot(docRef, async (doc) => {
     let dat = doc.data();
     setX(dat.x);
     setY(dat.y);
-    changeStatus(num, dat.status);
+    updateBus(num, dat.status, dat.altNum);
   });
 };

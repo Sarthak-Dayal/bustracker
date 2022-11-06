@@ -1,7 +1,7 @@
 /** @format */
 import "tippy.js/dist/tippy.css";
 import Tippy from "@tippyjs/react";
-import { updateDoc, reset, snapshot } from "./Data";
+import { changeDoc, reset, snapshot } from "./Data";
 import { useState, useRef } from "react";
 import Draggable from "react-draggable";
 
@@ -10,7 +10,7 @@ const Bus = (props) => {
   const [y, setY] = useState(0);
   const busRef = useRef();
 
-  snapshot(props.num, setX, setY, props.changeStatus);
+  snapshot(props.num, setX, setY, props.updateBus);
 
   const handleStop = async (event, dragElement) => {
     //const busX = busRef.current.offsetLeft + dragElement.x;
@@ -28,7 +28,7 @@ const Bus = (props) => {
       stat = "Waiting";
     }
     if (props.status == "Departed") stat = props.status;
-    updateDoc(
+    changeDoc(
       dragElement.x,
       dragElement.y,
       props.altNum ? props.altNum : "",
@@ -51,7 +51,7 @@ const Bus = (props) => {
           <button className='busBtn'>
             <h2>
               {props.num}{" "}
-              {props.altNum != null ? "(" + props.altNum + ")" : <></>}
+              {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>
@@ -71,7 +71,7 @@ const Bus = (props) => {
           <button className='busBtn'>
             <h2>
               {props.num}{" "}
-              {props.altNum != null ? "(" + props.altNum + ")" : <></>}
+              {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>

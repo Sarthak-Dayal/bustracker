@@ -4,8 +4,10 @@ import "./App.css";
 import Busdata from "./data.json";
 import { useState } from "react";
 import Bus from "./Bus";
-import { reset, updateDoc } from "./Data";
+import { reset, changeDoc } from "./Data";
 import EmptyBus from "./EmptyBus";
+import APLogin from "./APLogin";
+import ChangeAltNum from "./ChangeAltNum";
 const UnarrivedBuses = (props) => {
   //TODO: PULL FROM FIREBASE
   let buses = props.buses.map((bus) => {
@@ -24,6 +26,9 @@ const TitleSection = (props) => {
       </button>
       <button className='APLoginBtn' onClick={() => reset()}>
         Reset
+      </button>
+      <button className='APLoginBtn' onClick={() => props.setPage(3)}>
+        Update Bus Number
       </button>
     </div>
   );
@@ -69,48 +74,8 @@ const GoneArea = (props) => {
   );
 };
 
-const APLogin = (props) => {
-  return (
-    <div className='login'>
-      <div>
-        <h1>AP Login</h1>
-      </div>
-      <div>
-        <h3>Enter your AP Pin below:</h3>
-      </div>
-      <div>
-        <input id='APLoginInput' placeholder='PIN'></input>
-      </div>
-      <div className='APViewDiv'>
-        <button className='backToHomeBtn' onClick={() => props.setPage(0)}>
-          Back
-        </button>
-        <button
-          className='APView'
-          onClick={() =>
-            getValueOfLogin() === "lol" ? props.setPage(2) : borderChange()
-          }>
-          Enter
-        </button>
-      </div>
-    </div>
-  );
-};
-function getValueOfLogin() {
-  let input = document.getElementById("APLoginInput").value;
-  return input;
-}
-
-function borderChange() {
-  document.getElementById("APLoginInput").style.border = "5px solid red";
-}
-
-const APLogIn = (props) => {
-  //code to enter the AP login pin/password
-};
-
 export default function App() {
-  const changeStatus = (busNumber, newStatus) => {
+  const updateBus = (busNumber, newStatus, newAltNum) => {
     let newBuses = [...buses];
     for (let i = 0; i < newBuses.length; i++) {
       let bus = buses[i];
@@ -118,10 +83,10 @@ export default function App() {
         buses[i] = (
           <Bus
             num={bus.props.num}
-            altNum={bus.props.altNum}
+            altNum={newAltNum}
             page={page !== 0 ? 2 : 0}
             status={newStatus}
-            changeStatus={changeStatus}
+            updateBus={updateBus}
           />
         );
       }
@@ -136,7 +101,7 @@ export default function App() {
         num={data.num}
         status={data.status}
         page={page}
-        changeStatus={changeStatus}
+        updateBus={updateBus}
       />
     );
   });
@@ -149,7 +114,7 @@ export default function App() {
           num={bus.props.num}
           status={bus.props.status}
           page={page}
-          changeStatus={changeStatus}
+          updateBus={updateBus}
         />
       );
     });
@@ -163,7 +128,7 @@ export default function App() {
         bus.props.status === "First Lane" ||
         bus.props.status === "Second Lane"
       ) {
-        updateDoc(
+        changeDoc(
           0,
           0,
           bus.props.altNum ? bus.props.altNum : "",
@@ -191,6 +156,8 @@ export default function App() {
           </div>
         ) : page === 1 ? (
           <APLogin setPage={changePage} />
+        ) : page === 3 ? (
+          <ChangeAltNum setPage={changePage} />
         ) : (
           <div>
             <TitleSection setPage={changePage} />
