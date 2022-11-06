@@ -45,12 +45,12 @@ export const reset = () => {
   });
 };
 
-export const snapshot = (num, setX, setY, setStatus) => {
+export const snapshot = (num, setX, setY, changeStatus) => {
   const docRef = doc(db, "busdata", `${num}`);
   onSnapshot(docRef, async (doc) => {
     let dat = doc.data();
     setX(dat.x);
     setY(dat.y);
-    setStatus(num, dat.status);
+    changeStatus(num, dat.status);
   });
 };

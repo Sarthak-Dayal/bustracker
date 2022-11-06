@@ -8,8 +8,6 @@ import Draggable from "react-draggable";
 const Bus = (props) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
-  const [status, setStatus] = useState("Not here");
-  const [altNum, setAltNum] = useState(null);
   const busRef = useRef();
 
   snapshot(props.num, setX, setY, props.changeStatus);
@@ -52,7 +50,8 @@ const Bus = (props) => {
           }>
           <button className='busBtn'>
             <h2>
-              {props.num} {altNum != null ? "(" + altNum + ")" : <></>}
+              {props.num}{" "}
+              {props.altNum != null ? "(" + props.altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>
@@ -71,7 +70,8 @@ const Bus = (props) => {
           }>
           <button className='busBtn'>
             <h2>
-              {props.num} {altNum != null ? "(" + altNum + ")" : <></>}
+              {props.num}{" "}
+              {props.altNum != null ? "(" + props.altNum + ")" : <></>}
             </h2>
           </button>
         </Tippy>
