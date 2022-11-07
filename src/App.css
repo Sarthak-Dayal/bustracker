@@ -10,11 +10,21 @@
 /*iPhone X width is 812px*/
 /*Galaxy s8 width is 1440 px cuz its just better :/ */
 
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 10.0em;
+@media only screen and (min-width: 812px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #013200;
+  }
+}
+
+@media only screen and (max-width: 812px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
 }
 
 main {
@@ -79,7 +89,7 @@ main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background-image: linear-gradient(#013300,#114D11 , #CCCCCC);
+  background-image: linear-gradient(#013300, #114d11, #cccccc);
 }
 
 .emptybus,
@@ -103,7 +113,7 @@ main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-   background-image: linear-gradient(#CCCCCC,#013300 , #114D11);
+  background-image: linear-gradient(#cccccc, #013300, #114d11);
 }
 
 .emptySpace {
@@ -125,7 +135,9 @@ alternate bus(purple): 9232a0
   color: white;
   background: #000000;
   border: 2px solid white;
-  width: 100px;
+  width: 200px;
+  margin-top: -10px;
+  margin-left: 10px;
 }
 .login {
   margin: 0;
@@ -137,9 +149,9 @@ alternate bus(purple): 9232a0
   font-family: "Source Sans Pro", sans-serif;
   border: 2px solid black;
   height: 300px;
-  width:500px;
+  width: 500px;
   color: #ffffff;
- background: linear-gradient(#114D11, #000000);
+  background: linear-gradient(#114d11, #000000);
 }
 
 .APViewDiv {
@@ -158,7 +170,7 @@ alternate bus(purple): 9232a0
 .APView {
   margin: 10px;
   color: snow;
-  background:  #013300;
+  background: #013300;
   border: 2px solid white;
   width: 100px;
   padding: 10px;
@@ -166,5 +178,4 @@ alternate bus(purple): 9232a0
 
 .bkgrdImg {
   background-image: url("./images.jpg");
-  padding: 10px;
 }

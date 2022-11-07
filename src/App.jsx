@@ -38,7 +38,7 @@ const LoadingArea = (props) => {
   //const collectionRef = collection(db, "busdata");
   return (
     <div className='load'>
-      <button onClick={() => props.moveToDeparted()}>
+      <button className='APLoginBtn' onClick={() => props.moveToDeparted()}>
         Move loading to departed
       </button>
     </div>
