@@ -95,17 +95,18 @@ main {
 .emptybus,
 .bus {
   border: 0px;
-  width: 156px;
+  width: 78px;
   height: 80px;
   color: black;
   margin: 5px;
   background-color: rgba(0, 0, 0, 0);
   background-size: 156px 80px;
+  padding-bottom: 10px;
 }
 
 .bus {
   cursor: grab;
-  background: url("./Group\ 1.png"), #6f8e7900;
+  background: url("./Group\ 1\ (2).png"), #6f8e7900;
   background-repeat: no-repeat;
 }
 

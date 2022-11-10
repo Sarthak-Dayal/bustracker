@@ -49,10 +49,10 @@ const Bus = (props) => {
             </>
           }>
           <button className='busBtn'>
-            <h2>
-              {props.num}{" "}
+            <h3>
+              {props.num} <br />
               {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
-            </h2>
+            </h3>
           </button>
         </Tippy>
       </div>
@@ -69,10 +69,10 @@ const Bus = (props) => {
             </>
           }>
           <button className='busBtn'>
-            <h2>
-              {props.num}{" "}
+            <h3>
+              {props.num} <br />
               {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
-            </h2>
+            </h3>
           </button>
         </Tippy>
       </div>
