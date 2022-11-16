@@ -1,6 +1,8 @@
 /** @format */
+import { useState } from "react";
 
 const APLogin = (props) => {
+  const [APLoginValue, setAPLoginValue] = useState("");
   return (
     <div className='login'>
       <div>
@@ -10,7 +12,13 @@ const APLogin = (props) => {
         <h3>Enter your AP Pin below:</h3>
       </div>
       <div>
-        <input id='APLoginInput' placeholder='PIN'></input>
+        <input
+          type='text'
+          id='APLoginInput'
+          placeholder='PIN'
+          onChange={(e) => setAPLoginValue(e.target.value)}
+          value={APLoginValue}
+        />
       </div>
       <div className='APViewDiv'>
         <button className='backToHomeBtn' onClick={() => props.setPage(0)}>
@@ -19,7 +27,7 @@ const APLogin = (props) => {
         <button
           className='APView'
           onClick={() =>
-            getValueOfLogin() === "lol" ? props.setPage(2) : borderChange()
+            APLoginValue === "lol" ? props.setPage(2) : borderChange()
           }>
           Enter
         </button>
@@ -27,10 +35,6 @@ const APLogin = (props) => {
     </div>
   );
 };
-function getValueOfLogin() {
-  let input = document.getElementById("APLoginInput").value;
-  return input;
-}
 
 function borderChange() {
   document.getElementById("APLoginInput").style.border = "5px solid red";
