@@ -39,7 +39,7 @@ const Bus = (props) => {
   };
 
   return props.page === 0 ? (
-    <Draggable onDrag={() => console.log(props.page)} position={{ x: x, y: y }}>
+    <Draggable onDrag={null} position={{ x: x, y: y }}>
       <div
         className='bus'
         ref={busRef}
