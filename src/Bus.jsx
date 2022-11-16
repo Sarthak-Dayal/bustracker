@@ -45,7 +45,10 @@ const Bus = (props) => {
         ref={busRef}
         onMouseEnter={(e) => (showtp ? null : setShowtp(true))}
         onMouseLeave={(e) => (showtp ? setShowtp(false) : null)}
-        onClick={(e) => (showtp ? setShowtp(false) : setShowtp(true))}>
+        onClick={(e) => (showtp ? setShowtp(false) : setShowtp(true))}
+        onTouchEndCapture={(e) =>
+          showtp ? setShowtp(false) : setShowtp(true)
+        }>
         <Tippy
           content={
             <>
