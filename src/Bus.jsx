@@ -9,6 +9,7 @@ const Bus = (props) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const busRef = useRef();
+  const [showtp, setShowtp] = useState(false);
 
   snapshot(props.num, setX, setY, props.updateBus);
 
@@ -39,7 +40,12 @@ const Bus = (props) => {
 
   return props.page === 0 ? (
     <Draggable onDrag={null} position={{ x: x, y: y }}>
-      <div className='bus' ref={busRef}>
+      <div
+        className='bus'
+        ref={busRef}
+        onMouseEnter={(e) => (showtp ? null : setShowtp(true))}
+        onMouseLeave={(e) => (showtp ? setShowtp(false) : null)}
+        onClick={(e) => (showtp ? setShowtp(false) : setShowtp(true))}>
         <Tippy
           content={
             <>
@@ -47,7 +53,8 @@ const Bus = (props) => {
               <br></br>
               {"Status: " + props.status}
             </>
-          }>
+          }
+          visible={showtp}>
           <button className='busBtn'>
             <h3>
               {props.num} <br />
