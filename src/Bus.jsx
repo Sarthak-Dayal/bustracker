@@ -60,7 +60,7 @@ const Bus = (props) => {
           visible={showtp}>
           <button className='busBtn'>
             <h3>
-              {props.num} <br />
+              {props.page} <br />
               {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
             </h3>
           </button>
@@ -80,7 +80,7 @@ const Bus = (props) => {
           }>
           <button className='busBtn'>
             <h3>
-              {10} <br />
+              {props.page} <br />
               {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
             </h3>
           </button>
