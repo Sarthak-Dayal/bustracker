@@ -39,7 +39,7 @@ const Bus = (props) => {
   };
 
   return props.page === 0 ? (
-    <Draggable onDrag={null} position={{ x: x, y: y }}>
+    <Draggable disabled={true} position={{ x: x, y: y }}>
       <div
         className='bus'
         ref={busRef}
@@ -68,7 +68,7 @@ const Bus = (props) => {
       </div>
     </Draggable>
   ) : (
-    <Draggable position={{ x: x, y: y }} onStop={handleStop}>
+    <Draggable disabled={false} position={{ x: x, y: y }} onStop={handleStop}>
       <div className='bus' ref={busRef}>
         <Tippy
           content={
