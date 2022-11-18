@@ -120,6 +120,7 @@ export default function App() {
 
   const changePage = (newPg) => {
     setPage(newPg);
+    console.log(page);
     let newBuses = buses.map((bus) => {
       return (
         <Bus
@@ -131,6 +132,7 @@ export default function App() {
       );
     });
     setBuses(newBuses);
+    console.log(buses);
   };
 
   const moveToDeparted = () => {
