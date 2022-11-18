@@ -24,12 +24,18 @@ const TitleSection = (props) => {
       <button className='APLoginBtn' onClick={() => props.setPage(1)}>
         AP Login
       </button>
-      <button className='APLoginBtn' onClick={() => reset()}>
-        Reset
-      </button>
-      <button className='APLoginBtn' onClick={() => props.setPage(3)}>
-        Update Bus Number
-      </button>
+      {props.page !== 0 ? (
+        <>
+          <button className='APLoginBtn' onClick={() => reset()}>
+            Reset
+          </button>
+          <button className='APLoginBtn' onClick={() => props.setPage(3)}>
+            Update Bus Number
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
@@ -38,9 +44,15 @@ const LoadingArea = (props) => {
   //const collectionRef = collection(db, "busdata");
   return (
     <div className='load'>
-      <button className='APLoginBtn' onClick={() => props.moveToDeparted()}>
-        Move loading to departed
-      </button>
+      {props.page !== 0 ? (
+        <>
+          <button className='APLoginBtn' onClick={() => props.moveToDeparted()}>
+            Move loading to departed
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
@@ -146,10 +158,10 @@ export default function App() {
       <main>
         {page === 0 ? (
           <div>
-            <TitleSection setPage={changePage} />
+            <TitleSection setPage={changePage} page={page} />
             <div className='bkgrdImg'>
               <WaitingArea />
-              <LoadingArea moveToDeparted={moveToDeparted} />
+              <LoadingArea moveToDeparted={moveToDeparted} page={page} />
             </div>
             <UnarrivedArea page={page} buses={buses} />
             <GoneArea buses={buses} />
@@ -160,10 +172,10 @@ export default function App() {
           <ChangeAltNum setPage={changePage} />
         ) : (
           <div>
-            <TitleSection setPage={changePage} />
+            <TitleSection setPage={changePage} page={page} />
             <div className='bkgrdImg'>
               <WaitingArea />
-              <LoadingArea moveToDeparted={moveToDeparted} />
+              <LoadingArea moveToDeparted={moveToDeparted} page={page} />
             </div>
             <UnarrivedArea page={page} buses={buses} />
             <GoneArea buses={buses} />

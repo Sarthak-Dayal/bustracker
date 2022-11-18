@@ -27,7 +27,7 @@ const APLogin = (props) => {
         <button
           className='APView'
           onClick={() =>
-            APLoginValue === "lol" ? props.setPage(2) : borderChange()
+            APLoginValue === "1234" ? props.setPage(2) : borderChange()
           }>
           Enter
         </button>
