@@ -80,7 +80,7 @@ const Bus = (props) => {
           }>
           <button className='busBtn'>
             <h3>
-              {props.num} <br />
+              {10} <br />
               {props.altNum !== "" ? "(" + props.altNum + ")" : <></>}
             </h3>
           </button>
