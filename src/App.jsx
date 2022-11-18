@@ -112,7 +112,7 @@ export default function App() {
       <Bus
         num={data.num}
         status={data.status}
-        page={page}
+        page={page !== 0 ? 2 : 0}
         updateBus={updateBus}
       />
     );
