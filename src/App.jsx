@@ -62,6 +62,7 @@ const WaitingArea = (props) => {
 };
 
 const UnarrivedArea = (props) => {
+  console.log(props.buses);
   return (
     <div className='unarrive'>
       <h1>Bus Bank</h1>
@@ -109,7 +110,12 @@ export default function App() {
 
   const busesInit = Busdata.map((data) => {
     return (
-      <Bus num={data.num} status={data.status} page={2} updateBus={updateBus} />
+      <Bus
+        num={data.num}
+        status={data.status}
+        page={page !== 0 ? 2 : 0}
+        updateBus={updateBus}
+      />
     );
   });
 
