@@ -96,7 +96,7 @@ export default function App() {
           <Bus
             num={bus.props.num}
             altNum={newAltNum}
-            page={page !== 0 ? 2 : 0}
+            page={2}
             status={newStatus}
             updateBus={updateBus}
           />
