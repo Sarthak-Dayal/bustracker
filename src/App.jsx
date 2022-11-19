@@ -96,7 +96,7 @@ export default function App() {
           <Bus
             num={bus.props.num}
             altNum={newAltNum}
-            page={2}
+            page={page !== 0 ? 2 : 0}
             status={newStatus}
             updateBus={updateBus}
           />
@@ -109,12 +109,7 @@ export default function App() {
 
   const busesInit = Busdata.map((data) => {
     return (
-      <Bus
-        num={data.num}
-        status={data.status}
-        page={page !== 0 ? 2 : 0}
-        updateBus={updateBus}
-      />
+      <Bus num={data.num} status={data.status} page={2} updateBus={updateBus} />
     );
   });
 
