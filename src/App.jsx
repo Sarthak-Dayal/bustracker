@@ -88,24 +88,6 @@ const GoneArea = (props) => {
 };
 
 export default function App() {
-  const updateBus = (busNumber, newStatus, newAltNum) => {
-    let newBuses = [...buses];
-    for (let i = 0; i < newBuses.length; i++) {
-      let bus = buses[i];
-      if (bus.props.num === busNumber) {
-        buses[i] = (
-          <Bus
-            num={bus.props.num}
-            altNum={newAltNum}
-            page={page !== 0 ? 2 : bus.props.page !== 0 ? 2 : 0}
-            status={newStatus}
-            updateBus={updateBus}
-          />
-        );
-      }
-    }
-    setBuses(newBuses);
-  };
   const [page, setPage] = useState(0);
 
   const busesInit = Busdata.map((data) => {
@@ -118,23 +100,6 @@ export default function App() {
       />
     );
   });
-
-  const changePage = (newPg) => {
-    setPage(newPg);
-    console.log(page);
-    let newBuses = buses.map((bus) => {
-      return (
-        <Bus
-          num={bus.props.num}
-          status={bus.props.status}
-          page={newPg !== 0 ? 2 : 0}
-          updateBus={updateBus}
-        />
-      );
-    });
-    setBuses(newBuses);
-    console.log(buses);
-  };
 
   const moveToDeparted = () => {
     for (let i = 0; i < buses.length; i++) {
@@ -155,6 +120,42 @@ export default function App() {
   };
 
   const [buses, setBuses] = useState(busesInit);
+
+  const changePage = (newPg) => {
+    setPage(newPg);
+    console.log(page);
+    let newBuses = buses.map((bus) => {
+      return (
+        <Bus
+          num={bus.props.num}
+          status={bus.props.status}
+          page={newPg !== 0 ? 2 : 0}
+          updateBus={updateBus}
+        />
+      );
+    });
+    setBuses(newBuses);
+    console.log(buses);
+  };
+
+  const updateBus = (busNumber, newStatus, newAltNum) => {
+    let newBuses = [...buses];
+    for (let i = 0; i < newBuses.length; i++) {
+      let bus = buses[i];
+      if (bus.props.num === busNumber) {
+        buses[i] = (
+          <Bus
+            num={bus.props.num}
+            altNum={newAltNum}
+            page={page !== 0 ? 2 : 0}
+            status={newStatus}
+            updateBus={updateBus}
+          />
+        );
+      }
+    }
+    setBuses(newBuses);
+  };
 
   return (
     <div className='App'>
