@@ -90,6 +90,7 @@ const GoneArea = (props) => {
 export default function App() {
   const updateBus = (busNumber, newStatus, newAltNum) => {
     let newBuses = [...buses];
+    console.log(page);
     for (let i = 0; i < newBuses.length; i++) {
       let bus = buses[i];
       if (bus.props.num === busNumber) {
@@ -97,7 +98,7 @@ export default function App() {
           <Bus
             num={bus.props.num}
             altNum={newAltNum}
-            page={page !== 0 ? 2 : 0}
+            page={page}
             status={newStatus}
             updateBus={updateBus}
           />
