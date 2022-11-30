@@ -71,9 +71,10 @@ const UnarrivedArea = (props) => {
 };
 
 const GoneArea = (props) => {
-  let buses = props.buses.map((bus) => {
+  let buses = [];
+  props.buses.forEach((bus) => {
     if (bus.props.status === "Departed") {
-      return bus;
+      buses.push(bus);
     }
   });
   return (
