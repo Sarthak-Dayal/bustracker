@@ -3,7 +3,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { doc, updateDoc, setDoc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import Busdata from "./data.json";
 const firebaseConfig = {
   apiKey: "AIzaSyCRu8s0df6AqudfTeyC36vv--UjpIe3eTU",
