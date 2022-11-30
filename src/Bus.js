@@ -1,7 +1,7 @@
 /** @format */
 import "tippy.js/dist/tippy.css";
 import Tippy from "@tippyjs/react";
-import { changeDoc, reset, snapshot } from "./Data";
+import { changeDoc, snapshot } from "./Data";
 import { useState, useRef } from "react";
 import Draggable from "react-draggable";
 
@@ -28,7 +28,7 @@ const Bus = (props) => {
     if (busY <= 295) {
       stat = "Waiting";
     }
-    if (props.status == "Departed") stat = props.status;
+    if (props.status === "Departed") stat = props.status;
     changeDoc(
       dragElement.x,
       dragElement.y,
