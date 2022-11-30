@@ -124,7 +124,7 @@ export default function App() {
     let newBuses = buses.map((bus) => {
       return (
         <Bus
-          num={20}
+          num={bus.props.num}
           status={bus.props.status}
           page={page}
           updateBus={updateBus}
