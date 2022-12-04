@@ -1,6 +1,5 @@
 /** @format */
 
-import "./App.css";
 import Busdata from "./data.json";
 import { useState } from "react";
 import Bus from "./Bus";
@@ -95,6 +94,7 @@ export default function App() {
       if (bus.props.num === busNumber) {
         buses[i] = (
           <Bus
+            key={bus.props.num}
             num={bus.props.num}
             altNum={newAltNum}
             page={bus.props.page}
@@ -113,8 +113,9 @@ export default function App() {
       <Bus
         num={data.num}
         status={data.status}
-        page={page}
+        page={2}
         updateBus={updateBus}
+        key={data.num}
       />
     );
   });
@@ -128,6 +129,7 @@ export default function App() {
           status={bus.props.status}
           page={page}
           updateBus={updateBus}
+          key={bus.props.num}
         />
       );
     });
