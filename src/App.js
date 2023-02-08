@@ -127,7 +127,7 @@ export default function App() {
         <Bus
           num={bus.props.num}
           status={bus.props.status}
-          page={page}
+          page={newPg}
           updateBus={updateBus}
           key={bus.props.num}
         />
